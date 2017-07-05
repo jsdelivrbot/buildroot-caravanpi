@@ -6,6 +6,8 @@ This is my Raspberry Pi project intended for caravan use.
 This is also my first time with Buildroot so expect problems and bad style etc..
 Feel free to suggest ideas, corrections or other stuff that comes in to your mind!
 
+**Read COPYING for licensing information**
+
 ### Features
 - Navit-GPS navigation
 - GPS logging (see route history)
