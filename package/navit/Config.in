@@ -1,0 +1,53 @@
+menuconfig BR2_PACKAGE_NAVIT
+        bool "navit"
+        depends on BR2_PACKAGE_GLIBC
+	depends on BR2_PACKAGE_LIBGTK2
+	depends on BR2_PACKAGE_HAS_LIBEGL
+	depends on BR2_PACKAGE_HAS_LIBGLES
+        help
+          The OpenSource vector based navigation software
+
+          http://www.navit-project.org
+
+if BR2_PACKAGE_NAVIT
+
+config BR2_PACKAGE_NAVIT_QT5_SUPPORT
+	bool "Navit QT5 support"
+	select BR2_PACKAGE_QT5
+	select BR2_PACKAGE_QT5BASE_DBUS
+	help
+	  Adds Navit QT5 support (experimental?)
+
+config BR2_PACKAGE_NAVIT_SDL_SUPPORT
+	bool "Navit SDL support"
+	select BR2_PACKAGE_SDL
+	select BR2_PACKAGE_SDL_IMAGE
+	select BR2_PACKAGE_SDL_IMAGE_PNG
+	select BR2_PACKAGE_SDL_IMAGE_XPM
+	select BR2_PACKAGE_LIBFREEGLUT
+	help
+	  Adds SDL support
+
+config BR2_PACKAGE_NAVIT_ESPEAK_SUPPORT
+	bool "Navit espeak support"
+	select BR2_PACKAGE_ESPEAK
+	help
+	  Adds espeak support
+
+config BR2_PACKAGE_NAVIT_GETTEXT_SUPPORT
+	bool "Navit translation support"
+	select BR2_PACKAGE_GETTEXT
+	help
+	  Adds gettext to support translations
+
+config BR2_PACKAGE_NAVIT_CONF_OPTS
+	string "Build options"
+	default "-DSVG2PNG=TRUE -DLIBDIR=/usr/lib"
+	help
+	  Navit build configuration options.
+	  Documentation not available.
+	  Please contact me if you find a list of all options.
+endif
+
+comment "navit needs glibc, libgtk2, libegl and libgles support"
+	depends on !BR2_PACKAGE_GLIBC || !BR2_PACKAGE_LIBGTK2 || !BR2_PACKAGE_HAS_LIBEGL || !BR2_PACKAGE_HAS_LIBGLES
