@@ -1,0 +1,24 @@
+#!/bin/bash
+# CaravanPi Wireless AP forwarding
+case "$1" in
+start)
+	# Enable IP Forwarding
+	echo 1 > /proc/sys/net/ipv4/ip_forward
+	# Enable IP Masquerading for the Ethernet packets
+	iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+	# Forward packets
+	iptables -A FORWARD -i eth0 -o wlan0 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+	iptables -A FORWARD -i wlan0 -o eth0 -j ACCEPT
+;;
+stop)
+	# Reverse everything. *UN-TESTED!*
+	echo 0 > /proc/sys/net/ipv4/ip_forward
+	iptables -D POSTROUTING -o eth0 -j MASQUERADE
+	iptables -D FORWARD -i eth0 -o wlan0 -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+	iptables -D FORWARD -i wlan0 -o eth0 -j ACCEPT
+;;
+
+*)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+esac
